@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="fi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Kissafaktat</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+            padding: 20px;
+			background-color:gray;
+        }
+        button {
+            margin: 10px;
+            padding: 10px 20px;
+            font-size: 16px;
+            cursor: pointer;
+        }
+        .output {
+            margin-top: 20px;
+            font-size: 18px;
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+    <h1>Tervetuloa lukemaan kissafaktoja</h1>
+    <button id="factButton">Hae Kissafakta</button>
+    <button id="breedButton">Hae Kissarotu</button>
+    <div id="output" class="output"></div>
+
+    <script>
+        const factButton = document.getElementById('factButton');
+        const breedButton = document.getElementById('breedButton');
+        const outputDiv = document.getElementById('output');
+
+        // Funktio hakee satunnaisen kissafaktan
+        factButton.addEventListener('click', async () => {
+            try {
+                const response = await fetch('https://catfact.ninja/fact');
+                if (!response.ok) throw new Error('Tietoja ei voitu hakea');
+                const data = await response.json();
+                outputDiv.textContent = `Fakta: ${data.fact}`;
+            } catch (error) {
+                outputDiv.textContent = 'Virhe: ' + error.message;
+            }
+        });
+
+        // Funktio hakee satunnaisen kissarodun
+        breedButton.addEventListener('click', async () => {
+            try {
+                const response = await fetch('https://api.thecatapi.com/v1/breeds');
+                if (!response.ok) throw new Error('Tietoja ei voitu hakea');
+                const data = await response.json();
+                const randomBreed = data[Math.floor(Math.random() * data.length)];
+                outputDiv.textContent = `Kissarotu: ${randomBreed.name}\nAlkuperä: ${randomBreed.origin}`;
+            } catch (error) {
+                outputDiv.textContent = 'Virhe: ' + error.message;
+            }
+        });
+    </script>
+</body>
+</html>
