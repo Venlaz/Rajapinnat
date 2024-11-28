@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="fi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Leikepöydän käsittely</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 20px;
+            text-align: center;
+			background-color: gray;
+        }
+        input[type="text"] {
+            width: 80%;
+            padding: 10px;
+            font-size: 16px;
+            margin-bottom: 20px;
+        }
+        button {
+            padding: 10px 20px;
+            font-size: 16px;
+            cursor: pointer;
+        }
+        #message {
+            margin-top: 20px;
+            font-size: 18px;
+            color: green;
+        }
+    </style>
+</head>
+<body>
+
+    <h1>Leikepöydän käsittely</h1>
+    <input type="text" id="textInput" placeholder="Kirjoita jotain ja paina nappia niin se kopioituu leikepöydälle" />
+    <br>
+    <button onclick="copyToClipboard()">Kopio leikepöydälle</button>
+
+    <div id="message"></div>
+
+    <script>
+        async function copyToClipboard() {
+            const textInput = document.getElementById("textInput");
+            const message = document.getElementById("message");
+
+            if (textInput.value.trim() === "") {
+                message.style.color = "black";
+                message.textContent = "Tekstikenttä on tyhjä lisää tekstiä kopioitavaksi";
+                return;
+            }
+
+            try {
+                await navigator.clipboard.writeText(textInput.value);
+                message.style.color = "black";
+                message.textContent = "Tekstin kopiointi leikepöydälle onnistui";
+            } catch (err) {
+                message.style.color = "black";
+                message.textContent = "Tekstin kopioiminen leikepöydälle ei onnistunut";
+            }
+        }
+    </script>
+
+</body>
+</html>
