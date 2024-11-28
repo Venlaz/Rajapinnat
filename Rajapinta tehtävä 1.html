@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="fi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Käyttäjän sijainti</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 20px;
+            text-align: center;
+			background-color: gray;
+        }
+        button {
+            padding: 10px 20px;
+            font-size: 16px;
+            cursor: pointer;
+			color: black;
+			background-color: pink;
+        }
+        #location {
+            margin-top: 50px;
+            font-size: 38x;
+        }
+    </style>
+</head>
+<body>
+
+    <h1>Käyttäjän sijainti</h1>
+    <button onclick="getLocation()">Näytä sijainti</button>
+
+    <div id="location"></div>
+
+    <script>
+        function getLocation() {
+            if (navigator.geolocation) {
+                navigator.geolocation.getCurrentPosition(showPosition, showError);
+            } else {
+                document.getElementById("location").innerHTML = "Geolocation ei ole tuettu tällä selaimella.";
+            }
+        }
+
+        function showPosition(position) {
+            const latitude = position.coords.latitude;
+            const longitude = position.coords.longitude;
+            document.getElementById("location").innerHTML = "Leveysaste: " + latitude + "<br>Pituusaste: " + longitude;
+        }
+
+        function showError(error) {
+            switch(error.code) {
+                case error.PERMISSION_DENIED:
+                    document.getElementById("location").innerHTML = "Sijainnin käyttö ei ole sallittu";
+                    break;
+                case error.POSITION_UNAVAILABLE:
+                    document.getElementById("location").innerHTML = "Sijaintia ei voitu määrittää";
+                    break;
+                case error.TIMEOUT:
+                    document.getElementById("location").innerHTML = "Aikaa ei riittänyt sijainnin määrittämiseen";
+                    break;
+                default:
+                    document.getElementById("location").innerHTML = "Tuntematon virhe";
+                    break;
+            }
+        }
+    </script>
+
+</body>
+</html>
